@@ -8,19 +8,34 @@ Prof. José Anastacio Hernández Saldaña · FCFM UANL · Ago–Dic 2026
 
 ## Dataset
 
-<!-- ponytail: llenar al elegir dataset -->
-- Fuente:
-- Descripción:
+**Carpetas de investigación FGJ CDMX, año 2023** — `data/carpetasFGJ_2023.csv.gz`
 
-Requisitos (verificar ANTES de elegir, no se permite cambio después de Semana 5):
+- Fuente: Portal de Datos Abiertos de la CDMX, Fiscalía General de Justicia
+- Origen: https://archivo.datos.cdmx.gob.mx/FGJ/carpetas/carpetasFGJ_2023.csv
+- Catálogo: https://datos.cdmx.gob.mx/dataset/carpetas-de-investigacion-fgj-de-la-ciudad-de-mexico
+- Descargado: 10 ago 2026 · 242,392 filas × 21 columnas · 69 MB crudo, 12 MB en gzip
 
-- [ ] ≥ 4 variables distintas
-- [ ] ≥ 2 numéricas
-- [ ] ≥ 1 alfanumérica (texto/categoría)
-- [ ] ≥ 1 fecha **con continuidad temporal** (la necesita la Práctica 8, series de tiempo)
-- [ ] ≥ 5,000 filas
-- [ ] 1 solo archivo/tabla de preferencia
-- [ ] NO de Kaggle con notebook resuelto (plagio = 0 automático)
+`pandas.read_csv()` lee el `.gz` directo, no hace falta descomprimir.
+
+Requisitos verificados:
+
+- [x] ≥ 4 variables distintas — **21**
+- [x] ≥ 2 numéricas — `latitud`, `longitud`, `anio_hecho`
+- [x] ≥ 1 alfanumérica — `delito` (286 valores únicos, 422 palabras distintas)
+- [x] ≥ 1 fecha con continuidad temporal — `fecha_inicio`, **365 de 365 días de 2023**
+- [x] ≥ 5,000 filas — **242,392**
+- [x] 1 solo archivo
+- [x] No es de Kaggle ni trae análisis resuelto
+
+### Trampas conocidas del dataset
+
+Detectadas al explorarlo. Sirven de material para la Práctica 1 y evitan sorpresas después:
+
+1. **Usar `fecha_inicio` para la serie de tiempo, no `fecha_hecho`.** `fecha_inicio` es la apertura de la carpeta (365 días continuos de 2023). `fecha_hecho` es cuándo ocurrió el delito y llega hasta 1957 — son denuncias de hechos viejos. Como serie temporal tiene huecos enormes.
+2. **`categoria_delito` está desbalanceado ~87%** hacia "DELITO DE BAJO IMPACTO". Para el KNN de la Práctica 6, un clasificador que siempre predice esa clase acierta 87% sin aprender nada. Usar `delito` (286 clases), agrupar en clases balanceadas, o reportar métricas por clase y no solo accuracy.
+3. **`latitud`/`longitud` tienen ~6.5% de nulos** y coordenadas en 0 o fuera de CDMX. Filtrar antes del clustering de la Práctica 7.
+4. **Columnas duplicadas a propósito**: `colonia_hecho` vs `colonia_catalogo`, `alcaldia_hecho` vs `alcaldia_catalogo`. Las `_catalogo` están normalizadas (Title Case, nombres oficiales); las `_hecho` vienen crudas del expediente. Decidir cuál usar y justificarlo — el profe evalúa el por qué.
+5. **Encoding**: el CSV viene en UTF-8 pero con acentos inconsistentes en algunos campos.
 
 ## Entregas
 
