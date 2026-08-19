@@ -4,3 +4,6 @@ __pycache__/
 venv/
 .env
 .DS_Store
+data/carpetasFGJ_2023.csv
+data/muestra_limpia.csv
+Practica 1/carpetas_2023_limpio.csv
