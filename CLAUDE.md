@@ -62,7 +62,8 @@ Textual, tal como se lo pasé:
 |---|---|---|
 | 1 | Limpieza de datos | entregada (commit `a4b517c`) |
 | 2 | Estadística descriptiva, entidades/relaciones, diagrama, métricas agrupadas | entregada |
-| 3-10 | — | pendientes |
+| 3 | Visualización: al menos 5 tipos de gráfica, generadas con ciclos | entregada |
+| 4-10 | — | pendientes |
 
 ## Bitácora
 
@@ -155,16 +156,50 @@ filas sin alcaldía.
 Al final pedí simplificar el README completo: sin siglas, con glosario de cada
 término y sin jerga, para que se entienda sin saber estadística.
 
+### Práctica 3 — visualización
+
+Seis gráficas de cinco tipos: histograma (normal y logarítmico), barras, dispersión,
+línea, y caja y bigotes.
+
+**Decisión de diseño que tomé yo:** la lista `GRAFICAS` guarda qué dibujar y un solo
+ciclo las genera todas. Entre las dos formas de resolverlo escogí que cada entrada
+lleve un campo `tipo` y que un `if` decida la función de matplotlib, en lugar de
+guardar funciones dentro de la lista. Se lee más fácil, aunque el `if` crezca.
+
+**Las tres gráficas que no servían al primer intento**, y qué decidí en cada una:
+
+- El histograma de `dias_para_denunciar` quedaba aplastado por la cola. Lo dejé así
+  y agregué la versión logarítmica al lado, porque si solo dejo la log nadie sabría
+  que hubo que transformar la variable.
+- La dispersión eran 228,245 puntos encimados. Opacidad 0.01 en lugar de muestrear,
+  para no tirar datos.
+- El boxplot no mostraba ni una caja. Escala `symlog`, que admite el 0.
+
+**Log en el boxplot pero no en las barras.** Son casos opuestos y así lo justifiqué:
+en el boxplot la cola tapaba el hallazgo; en las barras el desbalance *es* el
+hallazgo, y ponerle log lo escondería. El detalle de las categorías chicas se
+recuperó poniendo el conteo al final de cada barra.
+
+**Lo que le deja a la Práctica 7:** la dispersión muestra una mancha continua, no
+grupos separados. El K-Means va a cortar donde no hay fronteras reales.
+
 ## Archivos
 
 ```
+requirements.txt          las cuatro librerias que usa el repo
 data/                     dataset crudo (csv.gz)
 Practica 1/limpieza.py    pipeline de limpieza -> parquet
 Practica 2/
   estadistica_desc.py     los tres puntos: descriptivos, entidades, agrupados
   salida.txt              salida completa del script
   README.md               el reporte
+Practica 3/
+  graficas.py             la lista GRAFICAS y el ciclo que las dibuja
+  graficas/               los PNG generados
+  README.md               el reporte
 ```
 
-Los scripts traen `--demo` con asserts que verifican las fórmulas contra casos
-resueltos a mano antes de correrlas sobre las 242,392 filas.
+Los tres scripts traen `--demo`: el de la Práctica 1 comprueba el pipeline de
+limpieza, el de la 2 verifica las fórmulas de datos agrupados contra una tabla
+resuelta a mano, y el de la 3 comprueba que cada tipo de la lista se dibuja. Todos
+corren con datos de juguete, sin tocar las 242,392 filas.
