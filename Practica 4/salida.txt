@@ -1,0 +1,111 @@
+============================================================================== 
+1. ¿SON NORMALES? (D'Agostino-Pearson, alfa = 0.05)
+
+                                 grupo      n  sesgo  curtosis  estadistico          p ¿normal?
+                    HECHO NO DELICTIVO   5101   30.1     1,253    1.333e+04          0       no
+                      HOMICIDIO DOLOSO    885  26.11     721.1        2,257          0       no
+LESIONES DOLOSAS POR DISPARO DE ARMA D    811  15.35     241.8        1,634          0       no
+                             SECUESTRO     20  4.063     14.69        50.89  8.891e-12       no
+          ROBO A NEGOCIO CON VIOLENCIA   1993  30.58     952.4        5,283          0       no
+ROBO A CUENTAHABIENTE SALIENDO DEL CAJ    207   13.7     190.4        451.5  9.164e-99       no
+ROBO A PASAJERO A BORDO DE MICROBUS CO    643  18.55     375.6        1,438          0       no
+  ROBO A CASA HABITACIÓN CON VIOLENCIA    289  16.13     265.3        649.9 7.379e-142       no
+  ROBO DE VEHÍCULO CON Y SIN VIOLENCIA   6660  35.22     1,531    1.845e+04          0       no
+ROBO A PASAJERO A BORDO DE TAXI CON VI    185  10.91     130.9        366.9  2.098e-80       no
+ROBO A TRANSEUNTE EN VÍA PÚBLICA CON Y   8855  56.24     3,848    2.911e+04          0       no
+ ROBO A REPARTIDOR CON Y SIN VIOLENCIA    904  7.861     73.49        1,267 9.174e-276       no
+ROBO A TRANSPORTISTA CON Y SIN VIOLENC     48  6.489     40.92        105.9  1.021e-23       no
+                DELITO DE BAJO IMPACTO 211562  20.26     660.9    4.662e+05          0       no
+ROBO A PASAJERO A BORDO DEL METRO CON    1362  26.66       837        3,455          0       no
+                             VIOLACIÓN   2845  5.377     35.28        3,002          0       no
+
+============================================================================== 
+2. ANOVA, CORRIDA A PROPOSITO PESE A QUE NO APLICA
+
+  prueba                     ANOVA de una via
+  estadistico_F              323.59009623636024
+  p                          0.0
+  Levene (igual varianza)    0.0
+  ¿varianzas iguales?        no
+
+============================================================================== 
+3. KRUSKAL-WALLIS SOBRE LAS 16 CATEGORIAS
+
+  prueba           Kruskal-Wallis
+  grupos           16
+  n_total          242370
+  estadistico_H    8803.983606095877
+  p                0.0
+  conclusion       al menos un grupo difiere
+
+============================================================================== 
+4. MANN-WHITNEY POR PARES (grupos con n >= 500)
+
+  55 pares comparados
+
+                       grupo A                        grupo B  mediana A  mediana B         U          p    delta  p_ajustada  significativo
+              HOMICIDIO DOLOSO                      VIOLACIÓN          0          7 3.769e+05 1.143e-227  -0.7006  6.286e-226           True
+              HOMICIDIO DOLOSO ROBO A PASAJERO A BORDO DEL ME          0          2 2.181e+05 9.639e-160  -0.6381  5.302e-158           True
+LESIONES DOLOSAS POR DISPARO D                      VIOLACIÓN          0          7 4.284e+05  9.67e-170  -0.6287  5.318e-168           True
+            HECHO NO DELICTIVO                      VIOLACIÓN          0          7 2.857e+06          0  -0.6063           0           True
+              HOMICIDIO DOLOSO         DELITO DE BAJO IMPACTO          0          2 3.879e+07 3.585e-205  -0.5856  1.972e-203           True
+              HOMICIDIO DOLOSO ROBO A PASAJERO A BORDO DE MIC          0          1 1.247e+05   3.44e-98  -0.5618   1.892e-96           True
+              HOMICIDIO DOLOSO ROBO A REPARTIDOR CON Y SIN VI          0          1 1.811e+05 4.266e-107  -0.5472  2.347e-105           True
+LESIONES DOLOSAS POR DISPARO D ROBO A PASAJERO A BORDO DEL ME          0          2 2.536e+05 1.091e-105  -0.5409  5.999e-104           True
+            HECHO NO DELICTIVO ROBO A PASAJERO A BORDO DEL ME          0          2 1.748e+06 6.644e-230  -0.4969  3.654e-228           True
+LESIONES DOLOSAS POR DISPARO D         DELITO DE BAJO IMPACTO          0          2 4.392e+07 2.502e-131   -0.488  1.376e-129           True
+ROBO A TRANSEUNTE EN VÍA PÚBLI                      VIOLACIÓN          1          7 6.464e+06          0  -0.4868           0           True
+              HOMICIDIO DOLOSO ROBO DE VEHÍCULO CON Y SIN VIO          0          1 1.559e+06 3.537e-126  -0.4709  1.946e-124           True
+            HECHO NO DELICTIVO         DELITO DE BAJO IMPACTO          0          2 2.872e+08          0  -0.4678           0           True
+LESIONES DOLOSAS POR DISPARO D ROBO A PASAJERO A BORDO DE MIC          0          1 1.434e+05  1.349e-55  -0.4498   7.419e-54           True
+LESIONES DOLOSAS POR DISPARO D ROBO A REPARTIDOR CON Y SIN VI          0          1 2.094e+05  2.692e-59  -0.4287   1.481e-57           True
+              HOMICIDIO DOLOSO   ROBO A NEGOCIO CON VIOLENCIA          0          1 5.044e+05  6.206e-89  -0.4281   3.414e-87           True
+            HECHO NO DELICTIVO ROBO A PASAJERO A BORDO DE MIC          0          1 9.398e+05 1.032e-100  -0.4269   5.675e-99           True
+ROBO DE VEHÍCULO CON Y SIN VIO                      VIOLACIÓN          1          7 5.432e+06 3.451e-250  -0.4267  1.898e-248           True
+            HECHO NO DELICTIVO ROBO A REPARTIDOR CON Y SIN VI          0          1 1.347e+06 2.841e-124  -0.4157  1.563e-122           True
+  ROBO A NEGOCIO CON VIOLENCIA                      VIOLACIÓN          1          7 1.703e+06 1.999e-127  -0.3994    1.1e-125           True
+ROBO A REPARTIDOR CON Y SIN VI                      VIOLACIÓN          1          7 8.343e+05  4.554e-58  -0.3512   2.505e-56           True
+ROBO A PASAJERO A BORDO DE MIC                      VIOLACIÓN          1          7 5.978e+05  1.475e-43  -0.3464   8.111e-42           True
+            HECHO NO DELICTIVO ROBO DE VEHÍCULO CON Y SIN VIO          0          1 1.118e+07 1.855e-260  -0.3418   1.02e-258           True
+              HOMICIDIO DOLOSO ROBO A TRANSEUNTE EN VÍA PÚBLI          0          1 2.611e+06  1.276e-70  -0.3336   7.018e-69           True
+LESIONES DOLOSAS POR DISPARO D ROBO DE VEHÍCULO CON Y SIN VIO          0          1 1.813e+06  1.867e-57  -0.3285   1.027e-55           True
+LESIONES DOLOSAS POR DISPARO D   ROBO A NEGOCIO CON VIOLENCIA          0          1 5.543e+05  1.131e-43  -0.3141   6.218e-42           True
+            HECHO NO DELICTIVO   ROBO A NEGOCIO CON VIOLENCIA          0          1 3.524e+06 1.322e-121  -0.3067  7.272e-120           True
+ROBO A TRANSEUNTE EN VÍA PÚBLI ROBO A PASAJERO A BORDO DEL ME          1          2 4.202e+06  5.361e-81  -0.3032   2.949e-79           True
+ROBO A TRANSEUNTE EN VÍA PÚBLI         DELITO DE BAJO IMPACTO          1          2 6.532e+08          0  -0.3026           0           True
+ROBO A PASAJERO A BORDO DEL ME                      VIOLACIÓN          2          7 1.368e+06  1.117e-54  -0.2941   6.143e-53           True
+        DELITO DE BAJO IMPACTO                      VIOLACIÓN          2          7 2.281e+08 1.531e-112  -0.2421  8.421e-111           True
+ROBO DE VEHÍCULO CON Y SIN VIO ROBO A PASAJERO A BORDO DEL ME          1          2 3.517e+06  1.742e-41  -0.2245   9.583e-40           True
+ROBO DE VEHÍCULO CON Y SIN VIO         DELITO DE BAJO IMPACTO          1          2 5.465e+08 2.021e-220  -0.2243  1.112e-218           True
+ROBO A PASAJERO A BORDO DE MIC ROBO A TRANSEUNTE EN VÍA PÚBLI          1          1  3.48e+06  1.027e-23   0.2223   5.647e-22           True
+            HECHO NO DELICTIVO ROBO A TRANSEUNTE EN VÍA PÚBLI          0          1 1.767e+07 6.393e-127  -0.2177  3.516e-125           True
+ROBO A TRANSEUNTE EN VÍA PÚBLI ROBO A REPARTIDOR CON Y SIN VI          1          1 3.161e+06  1.356e-28  -0.2103    7.46e-27           True
+              HOMICIDIO DOLOSO LESIONES DOLOSAS POR DISPARO D          0          0 2.892e+05  6.409e-18  -0.1942   3.525e-16           True
+LESIONES DOLOSAS POR DISPARO D ROBO A TRANSEUNTE EN VÍA PÚBLI          0          1 2.904e+06  2.878e-22  -0.1911   1.583e-20           True
+  ROBO A NEGOCIO CON VIOLENCIA         DELITO DE BAJO IMPACTO          1          2 1.719e+08   3.21e-47  -0.1848   1.765e-45           True
+  ROBO A NEGOCIO CON VIOLENCIA ROBO A PASAJERO A BORDO DEL ME          1          2 1.157e+06  9.596e-14  -0.1477   5.278e-12           True
+ROBO A PASAJERO A BORDO DE MIC ROBO DE VEHÍCULO CON Y SIN VIO          1          1 2.429e+06   5.05e-09   0.1345   2.777e-07           True
+  ROBO A NEGOCIO CON VIOLENCIA ROBO A TRANSEUNTE EN VÍA PÚBLI          1          1 9.944e+06  3.849e-21   0.1269   2.117e-19           True
+ROBO A REPARTIDOR CON Y SIN VI         DELITO DE BAJO IMPACTO          1          2 8.379e+07   6.65e-11  -0.1238   3.657e-09           True
+ROBO DE VEHÍCULO CON Y SIN VIO ROBO A REPARTIDOR CON Y SIN VI          1          1 2.654e+06  2.022e-09  -0.1185   1.112e-07           True
+ROBO A PASAJERO A BORDO DE MIC         DELITO DE BAJO IMPACTO          1          2 6.009e+07  2.116e-07  -0.1166   1.164e-05           True
+ROBO DE VEHÍCULO CON Y SIN VIO ROBO A TRANSEUNTE EN VÍA PÚBLI          1          1 3.261e+07  1.262e-32   0.1059   6.941e-31           True
+ROBO A REPARTIDOR CON Y SIN VI ROBO A PASAJERO A BORDO DEL ME          1          2 5.571e+05  9.799e-05   -0.095    0.005389           True
+            HECHO NO DELICTIVO               HOMICIDIO DOLOSO          0          0 2.457e+06  5.017e-08  0.08864    2.76e-06           True
+ROBO A PASAJERO A BORDO DE MIC ROBO A PASAJERO A BORDO DEL ME          1          2 4.003e+05    0.00163 -0.08581     0.08965          False
+            HECHO NO DELICTIVO LESIONES DOLOSAS POR DISPARO D          0          0 1.894e+06  1.461e-06 -0.08419   8.036e-05           True
+  ROBO A NEGOCIO CON VIOLENCIA ROBO A PASAJERO A BORDO DE MIC          1          1 5.947e+05    0.00457 -0.07189      0.2514          False
+  ROBO A NEGOCIO CON VIOLENCIA ROBO A REPARTIDOR CON Y SIN VI          1          1 8.392e+05   0.002294  -0.0684      0.1262          False
+        DELITO DE BAJO IMPACTO ROBO A PASAJERO A BORDO DEL ME          2          2 1.508e+08     0.0025  0.04676      0.1375          False
+  ROBO A NEGOCIO CON VIOLENCIA ROBO DE VEHÍCULO CON Y SIN VIO          1          1 6.885e+06   0.008476  0.03744      0.4662          False
+ROBO A PASAJERO A BORDO DE MIC ROBO A REPARTIDOR CON Y SIN VI          1          1 2.938e+05      0.707  0.01097           1          False
+
+============================================================================== 
+5. RESUMEN
+
+  pares con p ajustada < 0.05:  49 de 55
+  |delta| < 0.10 (diferencia despreciable): 9
+  |delta| > 0.33 (diferencia grande):       24
+
+  p mas grande de todas: 0.707
+  p mas chica de todas:  0

@@ -63,7 +63,8 @@ Textual, tal como se lo pasé:
 | 1 | Limpieza de datos | entregada (commit `a4b517c`) |
 | 2 | Estadística descriptiva, entidades/relaciones, diagrama, métricas agrupadas | entregada |
 | 3 | Visualización: al menos 5 tipos de gráfica, generadas con ciclos | entregada |
-| 4-10 | — | pendientes |
+| 4 | Pruebas estadísticas: ANOVA + t, o Kruskal-Wallis | entregada |
+| 5-10 | — | pendientes |
 
 ## Bitácora
 
@@ -183,10 +184,39 @@ recuperó poniendo el conteo al final de cada barra.
 **Lo que le deja a la Práctica 7:** la dispersión muestra una mancha continua, no
 grupos separados. El K-Means va a cortar donde no hay fronteras reales.
 
+### Práctica 4 — pruebas estadísticas
+
+Pregunta probada: ¿`dias_para_denunciar` cambia según `categoria_delito`? Es la misma
+tabla de la sección 4 de la Práctica 2, ahora comprobada.
+
+**La elección que tomé:** Kruskal-Wallis en lugar de ANOVA + t, por dos razones. La
+primera es que los datos no son normales, y lo comprobé formalmente con
+D'Agostino-Pearson: las 16 categorías salen "no normal" y el p más grande de todas
+fue 0.0000000000089. La segunda pesa más y sale de mi propia Práctica 2: ANOVA
+compara promedios, y yo ya había concluido que la media de esta variable no describe
+nada porque la jala la cola.
+
+**Variación probada:** corrí ANOVA de todos modos, a propósito. Rompe sus dos
+supuestos (Levene da p = 0.0 para igualdad de varianzas) y aun así llega a la misma
+conclusión. Lo dejé en el reporte con la explicación de por qué coincidir en la
+respuesta no es lo mismo que ser la herramienta correcta: aquí la diferencia entre
+grupos es enorme y casi cualquier prueba la detecta, pero con una diferencia chica
+ANOVA sí podría fallar.
+
+**El hallazgo que no pedía la consigna.** Al comparar los 55 pares con Mann-Whitney,
+49 salieron significativos, incluido uno donde las dos medianas son 0 y la delta es
+−0.084. Con 242,370 filas el p-value detecta cualquier cosa: mide si la diferencia se
+puede *detectar*, no si *importa*. Por eso agregué el tamaño del efecto (delta de
+Cliff) y reporté solo los 24 con `|delta| > 0.33`.
+
+**Lo que la práctica le agregó a la Práctica 2:** confirmó las 24 diferencias grandes
+y descartó 6 pares que resultaron indistinguibles del azar, más 9 con efecto
+despreciable. En la tabla de la Práctica 2 esos se veían como renglones distintos.
+
 ## Archivos
 
 ```
-requirements.txt          las cuatro librerias que usa el repo
+requirements.txt          las cinco librerias que usa el repo
 data/                     dataset crudo (csv.gz)
 Practica 1/limpieza.py    pipeline de limpieza -> parquet
 Practica 2/
@@ -197,9 +227,14 @@ Practica 3/
   graficas.py             la lista GRAFICAS y el ciclo que las dibuja
   graficas/               los PNG generados
   README.md               el reporte
+Practica 4/
+  pruebas.py              normalidad, ANOVA, Kruskal-Wallis y Mann-Whitney
+  salida.txt              salida completa del script
+  README.md               el reporte
 ```
 
-Los tres scripts traen `--demo`: el de la Práctica 1 comprueba el pipeline de
+Los cuatro scripts traen `--demo`: el de la Práctica 1 comprueba el pipeline de
 limpieza, el de la 2 verifica las fórmulas de datos agrupados contra una tabla
-resuelta a mano, y el de la 3 comprueba que cada tipo de la lista se dibuja. Todos
-corren con datos de juguete, sin tocar las 242,392 filas.
+resuelta a mano, el de la 3 comprueba que cada tipo de la lista se dibuja, y el de la
+4 corre cada prueba sobre grupos donde ya se sabe la respuesta. Todos usan datos de
+juguete, sin tocar las 242,392 filas.
