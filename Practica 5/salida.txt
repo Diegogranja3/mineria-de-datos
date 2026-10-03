@@ -1,0 +1,78 @@
+========================================================================== 
+1. LA UNIDAD DE ANALISIS: LA COLONIA (minimo 30 denuncias)
+
+  colonias que entran: 1,204
+  denuncias cubiertas: 221,489
+
+  reparto de cada tipo sobre el total general:
+    bajo_impacto    195,163  (88.11%)
+    transeunte        8,370  ( 3.78%)
+    vehiculo          5,874  ( 2.65%)
+
+========================================================================== 
+2. CORRELACION ENTRE TIPOS
+
+  conteos:
+              bajo_impacto  transeunte  vehiculo
+  bajo_impacto        1.0000      0.8424    0.6422
+  transeunte          0.8424      1.0000    0.4637
+  vehiculo            0.6422      0.4637    1.0000
+
+  proporciones:
+              bajo_impacto  transeunte  vehiculo
+  bajo_impacto        1.0000     -0.5601   -0.5158
+  transeunte         -0.5601      1.0000   -0.0274
+  vehiculo           -0.5158     -0.0274    1.0000
+
+========================================================================== 
+3. MODELO LINEAL: transeunte ~ vehiculo
+
+  --- CONTEOS ---
+    pendiente        1.23286
+    interseccion     0.93705
+    r                0.463682
+    R2               0.215001
+    p                3.24012e-65
+    error_pendiente  0.0679475
+    n                1,204
+    residuo_medio    -2.83273e-16
+    residuo_std      15.231
+
+  --- PROPORCIONES ---
+    pendiente        -0.031053
+    interseccion     0.0370477
+    r                -0.0273726
+    R2               0.000749257
+    p                0.342629
+    error_pendiente  0.0327094
+    n                1,204
+    residuo_medio    1.10653e-18
+    residuo_std      0.028066
+
+========================================================================== 
+4. SENSIBILIDAD A LOS PUNTOS EXTREMOS (conteos)
+
+                      caso    n     R2  pendiente
+        todas las colonias 1204 0.2150     1.2329
+  sin el top 1 de vehiculo 1203 0.2128     1.2902
+  sin el top 3 de vehiculo 1201 0.2076     1.3110
+sin el top 1 de transeunte 1203 0.3660     1.0034
+sin el top 3 de ambos ejes 1198 0.4357     1.0231
+
+  las colonias mas extremas de cada eje:
+                                           total  vehiculo  transeunte
+    alcaldia   colonia                                                    
+    Iztacalco  Agricola Oriental                2017   77.0000     60.0000
+    Iztapalapa Desarrollo Urbano Quetzalcoatl    800   44.0000     55.0000
+    Coyoacan   Del Carmen                        760   41.0000     32.0000
+                                 total  vehiculo  transeunte
+    alcaldia            colonia                                 
+    Cuauhtemoc          Centro        6752   31.0000    475.0000
+    Venustiano Carranza Zona Centro    899    2.0000    156.0000
+    Cuauhtemoc          Juarez        2184   17.0000    100.0000
+
+========================================================================== 
+5. GRAFICAS
+
+  1-conteos.png
+  2-proporciones.png

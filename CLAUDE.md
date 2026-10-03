@@ -64,7 +64,8 @@ Textual, tal como se lo pasé:
 | 2 | Estadística descriptiva, entidades/relaciones, diagrama, métricas agrupadas | entregada |
 | 3 | Visualización: al menos 5 tipos de gráfica, generadas con ciclos | entregada |
 | 4 | Pruebas estadísticas: ANOVA + t, o Kruskal-Wallis | entregada |
-| 5-10 | — | pendientes |
+| 5 | Modelo lineal + correlación + R² | entregada |
+| 6-10 | — | pendientes |
 
 ## Bitácora
 
@@ -213,6 +214,39 @@ Cliff) y reporté solo los 24 con `|delta| > 0.33`.
 y descartó 6 pares que resultaron indistinguibles del azar, más 9 con efecto
 despreciable. En la tabla de la Práctica 2 esos se veían como renglones distintos.
 
+### Práctica 5 — modelo lineal
+
+**El problema de arranque:** ninguna pareja de columnas numéricas correlaciona
+(todas ~0, la más alta es −0.124 entre latitud y longitud, que solo es la forma de la
+ciudad). Decidí cambiar la unidad de análisis: cada fila deja de ser una denuncia y
+pasa a ser una colonia, agrupando por la llave compuesta `(alcaldia, colonia)` de la
+Práctica 2.
+
+**Variación probada:** modelé `robo a transeúnte ~ robo de vehículo` en dos versiones,
+conteos y proporciones. Las correlaciones no solo bajan al pasar a proporciones,
+cambian de signo: de 0.464 a −0.027 en ese par.
+
+**El hallazgo:** el tamaño de la colonia es una variable de confusión. Una colonia
+grande tiene más de todo, así que en conteos cualquier par de delitos correlaciona
+sin que uno cause al otro. Es correlación no implica causalidad salido de datos
+propios.
+
+**Una trampa que detecté y no reporté como hallazgo:** las correlaciones negativas
+grandes de la tabla de proporciones (−0.560, −0.516) son en buena parte aritmética,
+porque las proporciones suman 100% y `DELITO DE BAJO IMPACTO` se lleva el 88%. El
+único par limpio es transeúnte contra vehículo, que entre los dos no llegan al 7%.
+
+**La decisión incómoda:** reporto como modelo principal el de proporciones, con R² de
+0.001, en lugar del de conteos con R² de 0.215. El segundo se ve mejor pero mide el
+tamaño de la colonia, que ya sabía. Explicar por qué un modelo no funciona vale más
+que forzar uno que sí.
+
+**Análisis de sensibilidad.** Probé quitar los puntos extremos y salió al revés de lo
+esperado: quitar el más alejado del eje X casi no movió el R², pero quitar la colonia
+Centro lo subió de 0.215 a 0.366. El Centro tiene 475 robos a peatones contra 31 de
+vehículo, un perfil que no se parece a ninguna otra colonia. Decidí **no** quitarlo:
+reporto las 1,204 colonias y dejo la tabla como explicación.
+
 ## Archivos
 
 ```
@@ -231,10 +265,15 @@ Practica 4/
   pruebas.py              normalidad, ANOVA, Kruskal-Wallis y Mann-Whitney
   salida.txt              salida completa del script
   README.md               el reporte
+Practica 5/
+  modelo_lineal.py        correlacion, regresion y sensibilidad a extremos
+  graficas/               los dos PNG de dispersion con la recta
+  salida.txt              salida completa del script
+  README.md               el reporte
 ```
 
-Los cuatro scripts traen `--demo`: el de la Práctica 1 comprueba el pipeline de
-limpieza, el de la 2 verifica las fórmulas de datos agrupados contra una tabla
-resuelta a mano, el de la 3 comprueba que cada tipo de la lista se dibuja, y el de la
-4 corre cada prueba sobre grupos donde ya se sabe la respuesta. Todos usan datos de
-juguete, sin tocar las 242,392 filas.
+Los cinco scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
+filas: el de la Práctica 1 comprueba el pipeline de limpieza, el de la 2 verifica las
+fórmulas de datos agrupados contra una tabla resuelta a mano, el de la 3 comprueba que
+cada tipo de gráfica se dibuja, el de la 4 corre cada prueba sobre grupos donde ya se
+sabe la respuesta, y el de la 5 ajusta rectas con R² conocido.
