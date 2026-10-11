@@ -65,7 +65,8 @@ Textual, tal como se lo pasé:
 | 3 | Visualización: al menos 5 tipos de gráfica, generadas con ciclos | entregada |
 | 4 | Pruebas estadísticas: ANOVA + t, o Kruskal-Wallis | entregada |
 | 5 | Modelo lineal + correlación + R² | entregada |
-| 6-10 | — | pendientes |
+| 6 | Clasificación con KNN | entregada |
+| 7-10 | — | pendientes |
 
 ## Bitácora
 
@@ -247,10 +248,52 @@ Centro lo subió de 0.215 a 0.366. El Centro tiene 475 robos a peatones contra 3
 vehículo, un perfil que no se parece a ninguna otra colonia. Decidí **no** quitarlo:
 reporto las 1,204 colonias y dejo la tabla como explicación.
 
+### Práctica 6 — clasificación con KNN
+
+**Qué predecir, y por qué no lo obvio.** Descarté usar `categoria_delito` con sus 16
+valores: el 88% cae en `DELITO DE BAJO IMPACTO` y `SECUESTRO` tiene 20 casos en todo
+el año. Lo junté en dos clases, bajo impacto contra el resto (88% / 12%).
+
+**Fuga de información que detecté y evité.** No usé `fiscalia`, `agencia` ni
+`unidad_investigacion` como variables de entrada: los nombres de las fiscalías
+contienen el tipo de delito ("FISCALÍA DEL DELITO DE SECUESTRO"), así que el modelo
+estaría leyendo la respuesta en lugar de predecirla.
+
+**El resultado principal.** El KNN con K = 15 saca accuracy 0.8802, que está **por
+debajo** del modelo tonto que siempre contesta la clase mayoritaria (0.8809). De
+5,437 delitos graves alcanza a marcar 32. El accuracy no distinguía entre los dos
+modelos; la matriz de confusión y el recall sí.
+
+**Tres variaciones probadas:** entrenar balanceado (recall sube a 0.624), bajar el
+umbral de decisión (recall 0.630), y probar seis conjuntos de variables distintos. El
+F1 se queda entre 0.229 y 0.243 en todas; agregar variables no mueve nada, y solo
+latitud y longitud dan lo mismo que todas juntas.
+
+**Una trampa que encontré con el F1.** El renglón de `solo dias_para_denunciar` tiene
+el F1 más alto de la tabla (0.243) y es el peor modelo: consigue recall 0.943 marcando
+como graves el 86% de todas las denuncias. El recall alto arrastra el F1 sin que el
+modelo distinga nada. Hay que mirar cuántos casos marca en total, no solo las
+métricas.
+
+**Mi conclusión.** Las variables disponibles no contienen la información para
+distinguir un delito grave de uno menor. La precisión nunca pasó de 0.15 contra un
+azar de 0.119. Un modelo útil necesitaría saber qué se robaron o si hubo arma, y eso
+el portal de datos abiertos no lo publica.
+
+**El cruce con las prácticas 3 y 4.** En la 4 comprobé que `dias_para_denunciar` sí
+difiere entre categorías. Aquí no clasifica nada. Las dos son ciertas: el boxplot de
+la Práctica 3 muestra que las cajas se enciman casi por completo. Una diferencia entre
+grupos no implica que se pueda predecir el individuo.
+
+**Nota de proceso.** A media sesión Claude me dio un número equivocado de la tabla de
+variaciones (dijo F1 0.020 donde el balanceado da 0.243). Lo detectó él mismo al
+consolidar el script y lo corrigió antes de escribir el reporte. De esa corrección
+salió la advertencia sobre el F1.
+
 ## Archivos
 
 ```
-requirements.txt          las cinco librerias que usa el repo
+requirements.txt          las seis librerias que usa el repo
 data/                     dataset crudo (csv.gz)
 Practica 1/limpieza.py    pipeline de limpieza -> parquet
 Practica 2/
@@ -270,10 +313,16 @@ Practica 5/
   graficas/               los dos PNG de dispersion con la recta
   salida.txt              salida completa del script
   README.md               el reporte
+Practica 6/
+  knn.py                  KNN, matriz de confusion y tres variaciones
+  graficas/               la curva de precision contra recall
+  salida.txt              salida completa del script
+  README.md               el reporte
 ```
 
-Los cinco scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
+Los seis scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
 filas: el de la Práctica 1 comprueba el pipeline de limpieza, el de la 2 verifica las
 fórmulas de datos agrupados contra una tabla resuelta a mano, el de la 3 comprueba que
 cada tipo de gráfica se dibuja, el de la 4 corre cada prueba sobre grupos donde ya se
-sabe la respuesta, y el de la 5 ajusta rectas con R² conocido.
+sabe la respuesta, el de la 5 ajusta rectas con R² conocido, y el de la 6 clasifica
+dos nubes bien separadas y comprueba la matriz de confusión a mano.

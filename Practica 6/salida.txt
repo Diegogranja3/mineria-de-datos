@@ -1,0 +1,70 @@
+============================================================================ 
+1. LOS DATOS
+
+  filas usables: 228,226  (se pierden 14,166 por nulos en lat/lon)
+  variables: latitud, longitud, hora_inicio, dias_para_denunciar
+  reparto:  bajo impacto 88.09%   resto 11.91%
+
+============================================================================ 
+2. EL MODELO TONTO (siempre contesta la clase mayoritaria)
+
+  accuracy           0.8809
+  precision          0.0000
+  recall             0.0000
+  F1                 0.0000
+  graves_marcados    0
+  graves_reales      5,437
+  falsas_alarmas     0
+
+============================================================================ 
+3. KNN TAL CUAL (K = 15, sin balancear)
+
+                    predijo: bajo impacto  predijo: resto
+  real: bajo impacto                  40145              64
+  real: resto                          5405              32
+
+  accuracy           0.8802
+  precision          0.3333
+  recall             0.0059
+  F1                 0.0116
+  graves_marcados    32
+  graves_reales      5,437
+  falsas_alarmas     64
+
+============================================================================ 
+4. VARIACION B: ENTRENAR BALANCEADO
+
+  entrenamiento recortado de 182,580 a 43,498 filas (21,749 de cada clase)
+
+  K  accuracy  precision  recall     F1  graves_marcados  graves_reales  falsas_alarmas
+  5    0.5405     0.1456  0.5871 0.2334             3192           5437           18728
+ 15    0.5383     0.1458  0.5917 0.2339             3217           5437           18855
+ 51    0.5289     0.1484  0.6239 0.2398             3392           5437           19459
+101    0.5258     0.1477  0.6252 0.2390             3399           5437           19608
+
+============================================================================ 
+5. VARIACION C: BAJAR EL UMBRAL DE DECISION
+
+  (sin balancear; marcar grave si al menos N de 15 vecinos lo son)
+
+  1-precision-recall.png
+
+ votos  accuracy  precision  recall     F1  graves_marcados  graves_reales  falsas_alarmas
+    15    0.8809     0.0000  0.0000 0.0000                0           5437               0
+     8    0.8802     0.3333  0.0059 0.0116               32           5437              64
+     4    0.8013     0.1852  0.1966 0.1907             1069           5437            4704
+     2    0.5101     0.1441  0.6303 0.2346             3427           5437           20352
+     1    0.2849     0.1287  0.8676 0.2242             4717           5437           31923
+
+============================================================================ 
+6. VARIACION D: ¿AYUDAN MAS VARIABLES?
+
+  (todas entrenadas balanceadas con K = 51)
+
+               variables  accuracy  precision  recall     F1  graves_marcados  graves_reales  falsas_alarmas
+  4 numericas (original)    0.5289     0.1484  0.6239 0.2398             3392           5437           19459
+   + mes y dia de semana    0.5463     0.1436  0.5658 0.2290             3076           5437           18350
+              + alcaldia    0.5308     0.1480  0.6178 0.2388             3359           5437           19337
+              todo junto    0.5477     0.1443  0.5676 0.2302             3086           5437           18294
+solo dias_para_denunciar    0.2516     0.1392  0.9432 0.2427             5812           6162           35927
+ solo latitud y longitud    0.5371     0.1448  0.5881 0.2323             3198           5438           18892
