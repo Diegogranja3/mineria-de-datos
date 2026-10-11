@@ -66,7 +66,8 @@ Textual, tal como se lo pasé:
 | 4 | Pruebas estadísticas: ANOVA + t, o Kruskal-Wallis | entregada |
 | 5 | Modelo lineal + correlación + R² | entregada |
 | 6 | Clasificación con KNN | entregada |
-| 7-10 | — | pendientes |
+| 7 | Clustering con K-Means | entregada |
+| 8-10 | — | pendientes |
 
 ## Bitácora
 
@@ -290,6 +291,51 @@ variaciones (dijo F1 0.020 donde el balanceado da 0.243). Lo detectó él mismo 
 consolidar el script y lo corrigió antes de escribir el reporte. De esa corrección
 salió la advertencia sobre el F1.
 
+### Práctica 7 — clustering con K-Means
+
+**Dos casos, para comprobar dos predicciones que yo mismo había dejado escritas.**
+El caso A agrupa las 228,245 denuncias por coordenadas; el caso B agrupa las 1,204
+colonias por su perfil de delitos en proporciones.
+
+**La predicción de la Práctica 3 se cumplió.** Con K = 3, las fronteras del caso A
+son líneas rectas que cortan colonias por la mitad y no siguen avenidas ni límites de
+alcaldía. K-Means partió una mancha continua, como estaba anotado. Sirve para
+repartir la ciudad en zonas de carga parecida, no para descubrir dónde pasa qué.
+
+**La predicción de la Práctica 5 también.** El control con conteos partió colonias
+chicas (mediana 96 denuncias) contra grandes (mediana 762), y nada más.
+
+**El resultado útil es el caso B**, con cinco perfiles: tranquilas (91% bajo
+impacto), peatonales (7.9% robo a transeúnte), de auto (5.1% robo de vehículo),
+comerciales (4.4% robo a negocio) y violentas (3.2% homicidio). Los cinco rondan el
+85% de bajo impacto: lo que los separa es el 10% restante, no el volumen.
+
+**Un error de método que detecté a tiempo.** El caso A sacó silueta 0.415 y el B
+0.244, lo que parecía contradecir mi predicción. Pero no se pueden comparar: el A
+tiene 2 variables y el B tiene 6, y al subir las dimensiones todas las distancias se
+parecen entre sí y aplastan la silueta. Es el mismo error que el coeficiente de
+variación de la Práctica 2: un número que solo se lee contra sí mismo.
+
+**Decidí reportar el caso B pese a tener la silueta más baja de las tres versiones**
+(0.244 contra 0.415 y 0.730), porque es la única que contesta algo que no se sabía de
+antemano.
+
+### El hilo de las prácticas 5, 6 y 7 (material para el PIA)
+
+```
+Práctica 5    mejor R² (0.215)        medía el tamaño de la colonia
+Práctica 6    mejor F1 (0.243)        marcaba el 86% de todo
+Práctica 7    mejor silueta (0.730)   partió chicas contra grandes
+```
+
+En las tres, la métrica que sale mejor corresponde al modelo menos útil. La razón es
+que en los datos hay dos estructuras: una fuerte y obvia (el tamaño, la clase
+mayoritaria) y otra sutil y útil (la mezcla de delitos, distinguir los graves). La
+métrica premia la fuerte porque explica más variación, y la fuerte es la aburrida:
+cuántos hay, no de qué tipo.
+
+La consecuencia: la métrica no puede ser el criterio para escoger el modelo.
+
 ## Archivos
 
 ```
@@ -318,11 +364,17 @@ Practica 6/
   graficas/               la curva de precision contra recall
   salida.txt              salida completa del script
   README.md               el reporte
+Practica 7/
+  kmeans.py               K-Means en dos casos, codo, silueta y control
+  graficas/               codo y silueta, y el mapa de los grupos
+  salida.txt              salida completa del script
+  README.md               el reporte
 ```
 
-Los seis scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
+Los siete scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
 filas: el de la Práctica 1 comprueba el pipeline de limpieza, el de la 2 verifica las
 fórmulas de datos agrupados contra una tabla resuelta a mano, el de la 3 comprueba que
 cada tipo de gráfica se dibuja, el de la 4 corre cada prueba sobre grupos donde ya se
-sabe la respuesta, el de la 5 ajusta rectas con R² conocido, y el de la 6 clasifica
-dos nubes bien separadas y comprueba la matriz de confusión a mano.
+sabe la respuesta, el de la 5 ajusta rectas con R² conocido, el de la 6 clasifica dos
+nubes bien separadas, y el de la 7 comprueba que encuentra 3 grupos cuando hay 3 y que
+la silueta se cae con ruido uniforme.

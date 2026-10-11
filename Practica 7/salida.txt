@@ -1,0 +1,84 @@
+============================================================================ 
+1. LOS DOS CASOS
+
+  A) denuncias por coordenadas : 228,245 puntos, 2 variables
+  B) colonias por perfil       : 1,204 puntos, 6 variables
+
+============================================================================ 
+2. CUANTOS GRUPOS (codo y silueta)
+
+  --- A) denuncias por coordenadas ---
+ K     inercia  silueta  grupo_mas_chico  grupo_mas_grande
+   2 280,235.453    0.380            77376            150869
+   3 170,923.718    0.415            59244            108778
+   4 141,012.744    0.399            36552            108507
+   5 114,107.836    0.347            27202             70469
+   6  93,395.894    0.355            26198             65698
+   7  80,820.969    0.349            21277             50469
+   8  70,603.587    0.354             8686             47008
+  10  56,662.703    0.365             7204             40986
+  mejor silueta: K = 3 (0.415)
+
+  --- B) colonias por perfil ---
+ K   inercia  silueta  grupo_mas_chico  grupo_mas_grande
+   2 5,827.645    0.227              512               692
+   3 5,148.799    0.234              109               663
+   4 4,563.872    0.237               82               592
+   5 4,052.892    0.244               67               573
+   6 3,629.083    0.240               62               527
+   7 3,362.011    0.195               59               392
+   8 3,172.282    0.167               58               298
+  10 2,841.163    0.189               23               295
+  mejor silueta: K = 5 (0.244)
+
+============================================================================ 
+3. COMPARACION DIRECTA DE LA SILUETA
+
+    A) denuncias por coordenadas  B) colonias por perfil
+K                                                       
+2                          0.380                   0.227
+3                          0.415                   0.234
+4                          0.399                   0.237
+5                          0.347                   0.244
+6                          0.355                   0.240
+7                          0.349                   0.195
+8                          0.354                   0.167
+10                         0.365                   0.189
+
+============================================================================ 
+4. CASO B: QUE DISTINGUE A CADA GRUPO
+
+  con K = 5 (el de mejor silueta), % promedio de cada tipo por grupo:
+
+       colonias  denuncias_mediana  DELITO DE BAJO IMPACTO  ROBO A TRANSEUNTE EN VÍA PÚBLICA CON Y SIN VIOLENCIA  ROBO DE VEHÍCULO CON Y SIN VIOLENCIA  ROBO A NEGOCIO CON VIOLENCIA  VIOLACIÓN  HOMICIDIO DOLOSO
+grupo                                                                                                                                                                                                            
+0           573            119.000                  91.440                                                 2.565                                 1.905                         0.590      0.621             0.151
+1           102             78.500                  84.457                                                 3.560                                 3.096                         4.435      0.973             0.197
+2            67             49.000                  86.003                                                 2.580                                 3.751                         0.250      0.771             3.194
+3           251             98.000                  84.812                                                 2.723                                 5.102                         0.716      2.281             0.397
+4           211            116.000                  82.651                                                 7.872                                 2.922                         0.886      0.727             0.449
+
+============================================================================ 
+5. CONTROL: LO MISMO CON CONTEOS EN VEZ DE PROPORCIONES
+
+ K   inercia  silueta  grupo_mas_chico  grupo_mas_grande
+   2 4,775.397    0.730               68              1136
+   3 3,585.944    0.667                1              1090
+   4 2,782.028    0.545                1              1007
+   5 2,512.188    0.342                1               782
+   6 2,264.048    0.320                1               734
+   7 2,086.842    0.332                1               701
+   8 1,949.046    0.320                1               696
+  10 1,705.985    0.303                1               662
+
+  con K = 2, mediana de denuncias totales por grupo:
+       colonias  denuncias_mediana
+grupo                             
+0          1136             96.000
+1            68            762.000
+
+============================================================================ 
+6. GRAFICAS
+
+  1-codo-y-silueta.png
+  2-mapa-grupos.png
