@@ -67,7 +67,8 @@ Textual, tal como se lo pasé:
 | 5 | Modelo lineal + correlación + R² | entregada |
 | 6 | Clasificación con KNN | entregada |
 | 7 | Clustering con K-Means | entregada |
-| 8-10 | — | pendientes |
+| 8 | Pronóstico sobre la serie de tiempo | entregada |
+| 9-10 | — | pendientes |
 
 ## Bitácora
 
@@ -336,6 +337,54 @@ cuántos hay, no de qué tipo.
 
 La consecuencia: la métrica no puede ser el criterio para escoger el modelo.
 
+### Práctica 8 — pronóstico
+
+**Lo que la hizo posible.** La serie diaria tiene los 365 días de 2023 sin un solo
+hueco, y eso viene de la decisión de la Práctica 1 de usar `fecha_inicio` y no
+`fecha_hecho`. Seis prácticas después, esa decisión pagó.
+
+**El corte es cronológico, no al azar.** En series de tiempo partir al azar deja que
+el modelo vea el futuro. Aparté los últimos 90 días (3 oct a 31 dic) y entrené con
+los primeros 275.
+
+**El sesgo que anticipé antes de correr nada.** La media del entrenamiento es 676.9 y
+la de la prueba 625.0, un 7.7% menos, porque noviembre y diciembre son los meses más
+flojos. Los seis modelos predicen de más por entre 48 y 56 denuncias. No es fallo de
+los modelos, es dónde cayó el corte, y lo documenté como tal.
+
+**La estructura de la serie.** El día de la semana pesa casi el doble que el mes: 309
+denuncias entre martes y domingo contra 165 entre el mes más alto y el más bajo. Y no
+mide crimen: mide el horario del Ministerio Público, igual que la curva de las horas
+de la Práctica 3.
+
+**El hallazgo principal: el modelo con más información fue el peor.** El modelo con
+tendencia, día de semana y mes dio MAE 242.4, más del doble que no hacer nada (103.7).
+La causa: el entrenamiento termina el 2 de octubre, así que noviembre y diciembre
+tienen **cero días** y octubre tiene **dos**. A noviembre y diciembre les puso
+coeficiente cero, que no significa "sin efecto" sino "igual que enero", el mes de
+referencia. Un modelo mal especificado es peor que ninguno.
+
+**La decisión incómoda.** Reporto el modelo 5 (solo día de semana, MAE 61.1) y no el 3
+(tendencia + día, MAE 59.9), pese a que el 3 mide mejor. El coeficiente de tendencia
+dice +351 denuncias al año, pero los promedios mensuales bajan de 734 en marzo a 568
+en diciembre: la recta sube porque arranca en enero, que es un mes bajo. Con un solo
+año no se puede separar la tendencia de la estacionalidad, así que un modelo sin
+tendencia no está peor informado, está menos equivocado.
+
+**Lo que ningún modelo supo.** Los días festivos. A fin de diciembre la serie real cae
+a 280-300 y los pronósticos siguen en 460. El 1 de enero tiene 268 denuncias, el
+mínimo del año. Eso es predecible con un calendario, sin modelo.
+
+### El segundo hilo para el PIA
+
+```
+prácticas 5, 6 y 7    la métrica que sale mejor corresponde al modelo menos útil
+práctica 8            más información no es mejor modelo si no se pudo estimar
+```
+
+Los dos apuntan a lo mismo: lo que decide si un modelo sirve no es cuánto sabe ni qué
+tan buena se ve su métrica, sino si lo que sabe se pudo medir con los datos que había.
+
 ## Archivos
 
 ```
@@ -369,12 +418,18 @@ Practica 7/
   graficas/               codo y silueta, y el mapa de los grupos
   salida.txt              salida completa del script
   README.md               el reporte
+Practica 8/
+  pronostico.py           seis modelos sobre la serie diaria, corte cronologico
+  graficas/               la serie con el pronostico, y el patron semanal
+  salida.txt              salida completa del script
+  README.md               el reporte
 ```
 
-Los siete scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
+Los ocho scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
 filas: el de la Práctica 1 comprueba el pipeline de limpieza, el de la 2 verifica las
 fórmulas de datos agrupados contra una tabla resuelta a mano, el de la 3 comprueba que
 cada tipo de gráfica se dibuja, el de la 4 corre cada prueba sobre grupos donde ya se
 sabe la respuesta, el de la 5 ajusta rectas con R² conocido, el de la 6 clasifica dos
-nubes bien separadas, y el de la 7 comprueba que encuentra 3 grupos cuando hay 3 y que
-la silueta se cae con ruido uniforme.
+nubes bien separadas, el de la 7 comprueba que encuentra 3 grupos cuando hay 3 y que
+la silueta se cae con ruido uniforme, y el de la 8 ajusta una recta exacta y verifica
+que el corte entrenamiento/prueba quede en orden cronológico.
