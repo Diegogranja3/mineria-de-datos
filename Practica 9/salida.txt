@@ -1,0 +1,120 @@
+========================================================================== 
+1. EL CORPUS
+
+  etiquetas        286
+  media            5.66
+  mediana          6.00
+  min              1
+  max              29
+  de 1 palabra     24
+  de mas de 10     12
+  denuncias        242,392
+
+  las tres etiquetas mas largas:
+    (29 palabras) CORRUPCIÓN DE PERSONAS MENORES DE EDAD O PERSONAS QUE NO TENGAN CAPACIDAD PARA COMPRENDER EL...
+    (19 palabras) PRODUCCIÓN, IMPRESIÓN, ENAJENACIÓN, DISTRIBUCIÓN, ALTERACIÓN O FALSIFICACIÓN DE TÍTULOS AL P...
+    (13 palabras) ATAQUE A LAS VIAS DE COMUNICACION (DAÑO A VIAS O MEDIOS DE TRANSPORTE)...
+
+========================================================================== 
+2. PALABRAS MAS FRECUENTES, EN LAS DOS VERSIONES
+
+            A) catalogo  A) %  B) denuncias  B) %
+violencia         76.00  6.55     77,508.00 10.46
+robo             103.00  8.88     76,100.00 10.27
+familiar            NaN   NaN     37,838.00  5.11
+sin               33.00  2.84     24,505.00  3.31
+fraude              NaN   NaN     24,033.00  3.24
+amenazas            NaN   NaN     19,695.00  2.66
+objetos             NaN   NaN     17,564.00  2.37
+con               49.00  4.22     16,672.00  2.25
+vehiculo          30.00  2.59     13,791.00  1.86
+negocio           12.00  1.03     12,195.00  1.65
+dano              12.00  1.03     11,647.00  1.57
+transeunte        14.00  1.21     11,607.00  1.57
+ajena               NaN   NaN     11,473.00  1.55
+propiedad           NaN   NaN     11,473.00  1.55
+accesorios          NaN   NaN     11,066.00  1.49
+bordo             12.00  1.03           NaN   NaN
+homicidio         11.00  0.95           NaN   NaN
+lesiones          14.00  1.21           NaN   NaN
+pasajero          22.00  1.90           NaN   NaN
+perdida           16.00  1.38           NaN   NaN
+
+  palabras que mandan en una version y no en la otra:
+    abuso            solo en las denuncias (lugar 18)
+    accesorios       solo en las denuncias (lugar 15)
+    amenazas         solo en las denuncias (lugar 6)
+    arma             solo en el catalogo (lugar 21)
+    auto             solo en las denuncias (lugar 16)
+    automovil        solo en las denuncias (lugar 25)
+    autoservicio     solo en las denuncias (lugar 36)
+    bordo            solo en el catalogo (lugar 13)
+    confianza        solo en las denuncias (lugar 39)
+    contra           solo en el catalogo (lugar 35)
+    culposa          solo en las denuncias (lugar 29)
+    culposo          solo en el catalogo (lugar 28)
+    ddh              solo en el catalogo (lugar 22)
+    equiparada       solo en el catalogo (lugar 37)
+    familiar         solo en las denuncias (lugar 3)
+    farderos         solo en las denuncias (lugar 24)
+    feminicidio      solo en el catalogo (lugar 40)
+    fraude           solo en las denuncias (lugar 5)
+    fuego            solo en el catalogo (lugar 32)
+    habitacion       solo en el catalogo (lugar 39)
+    homicidio        solo en el catalogo (lugar 14)
+    identidad        solo en las denuncias (lugar 27)
+    interior         solo en las denuncias (lugar 28)
+    menores          solo en el catalogo (lugar 30)
+    narcomenudeo     solo en las denuncias (lugar 38)
+    objetos          solo en las denuncias (lugar 7)
+    pasajero         lugar  6 en el catalogo, lugar 34 en las denuncias
+    perdida          solo en el catalogo (lugar 7)
+    personas         solo en el catalogo (lugar 27)
+    posesion         solo en las denuncias (lugar 37)
+    publico          solo en el catalogo (lugar 23)
+    servicio         lugar 15 en el catalogo, lugar 33 en las denuncias
+    sexual           solo en las denuncias (lugar 21)
+    tentativa        solo en el catalogo (lugar 25)
+    tiendas          solo en las denuncias (lugar 35)
+    uso              solo en el catalogo (lugar 33)
+    usurpacion       solo en las denuncias (lugar 26)
+    v                solo en el catalogo (lugar 29)
+    via              solo en las denuncias (lugar 20)
+    vias             solo en el catalogo (lugar 36)
+    vida             solo en el catalogo (lugar 8)
+    violacion        solo en el catalogo (lugar 18)
+
+========================================================================== 
+3. BIGRAMAS (pares de palabras seguidas)
+
+  en el catalogo:          en las denuncias:
+    robo a                       62    robo de                       40,435
+    con violencia                43    violencia familiar            37,838
+    robo de                      34    robo a                        33,123
+    sin violencia                32    sin violencia                 24,315
+    de la                        23    de objetos                    17,564
+    a pasajero                   22    con violencia                 15,355
+    de vehiculo                  19    a negocio                     11,955
+    perdida de                   16    a transeunte                  11,607
+    la vida                      16    dano en                       11,473
+    vida por                     15    en propiedad                  11,473
+    a transeunte                 14    propiedad ajena               11,473
+    a bordo                      12    de accesorios                 11,066
+
+========================================================================== 
+4. COBERTURA DEL VOCABULARIO
+
+  A) catalogo      34 de 409 palabras cubren el 50.0% del texto
+  A) catalogo     177 de 409 palabras cubren el 80.0% del texto
+  A) catalogo     293 de 409 palabras cubren el 90.0% del texto
+
+  B) denuncias     15 de 409 palabras cubren el 50.9% del texto
+  B) denuncias     53 de 409 palabras cubren el 80.3% del texto
+  B) denuncias     94 de 409 palabras cubren el 90.1% del texto
+
+========================================================================== 
+5. GRAFICAS
+
+  1-nube-catalogo.png
+  2-nube-denuncias.png
+  3-comparacion.png

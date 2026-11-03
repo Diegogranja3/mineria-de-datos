@@ -68,7 +68,8 @@ Textual, tal como se lo pasé:
 | 6 | Clasificación con KNN | entregada |
 | 7 | Clustering con K-Means | entregada |
 | 8 | Pronóstico sobre la serie de tiempo | entregada |
-| 9-10 | — | pendientes |
+| 9 | Análisis de texto: nube de palabras + EDA | entregada |
+| 10 | **PIA** — video ≤8 min | pendiente |
 
 ## Bitácora
 
@@ -385,10 +386,57 @@ práctica 8            más información no es mejor modelo si no se pudo estima
 Los dos apuntan a lo mismo: lo que decide si un modelo sirve no es cuánto sabe ni qué
 tan buena se ve su métrica, sino si lo que sabe se pudo medir con los datos que había.
 
+### Práctica 9 — análisis de texto
+
+Texto analizado: la columna `delito`. 286 etiquetas repartidas en 242,392 denuncias,
+409 palabras distintas, de 1 a 29 palabras por etiqueta.
+
+**Las dos formas de contar, y por qué las dos.** Versión A: cada etiqueta cuenta una
+vez, describe el vocabulario del catálogo. Versión B: cada etiqueta pesa lo que
+aparece en denuncias, describe lo que de verdad pasa. Es la cuarta vez en el semestre
+que la estructura fuerte tapa la sutil, pero esta vez las dos versiones son legítimas
+y contestan preguntas distintas, en lugar de que una sea la trampa.
+
+**La decisión sobre palabras vacías.** No usé la lista genérica de la librería. En
+este corpus `CON` y `SIN` distinguen delitos distintos ("ROBO A TRANSEUNTE CON
+VIOLENCIA" contra "SIN VIOLENCIA"), así que quitarlas los volvería la misma etiqueta.
+Conservé `con`, `sin`, `no` y `contra`; quité `a` aunque sea de la misma familia,
+porque aparece en todas las etiquetas de robo y no distingue ninguna. El criterio no
+es gramatical: es si la palabra separa unas etiquetas de otras en este corpus.
+
+**El hallazgo principal.** Las dos nubes no se parecen. `familiar` no aparece en la
+del catálogo y es de las más grandes en la de denuncias, porque `VIOLENCIA FAMILIAR`
+es una entrada y 37,838 casos. Al revés, `vida`, `homicidio`, `violacion`, `arma` y
+`feminicidio` dominan el catálogo y casi no aparecen en las denuncias.
+
+La división es casi limpia: del lado del catálogo los delitos graves contra la
+persona, del lado de las denuncias los patrimoniales y cotidianos. Mi explicación: un
+catálogo legal no es una lista de frecuencias sino una taxonomía jurídica. La ley
+distingue homicidio doloso de culposo y de feminicidio porque cada uno tiene pena
+distinta; `ROBO DE OBJETOS` cubre una variedad enorme bajo una etiqueta porque el
+tratamiento legal es el mismo. **El vocabulario del catálogo es proporcional a la
+consecuencia jurídica, no a la frecuencia.**
+
+**Lo que agregaron los bigramas.** En el catálogo `con violencia` (43) le gana a `sin
+violencia` (32); en las denuncias se invierte, 15,355 contra 24,315. El catálogo tiene
+más variantes con violencia, pero se denuncia más sin ella.
+
+**La cobertura.** 53 palabras cubren el 80% de todo el texto de las denuncias; al
+catálogo le hacen falta 177 para cubrir lo mismo de su vocabulario.
+
+**Mi conclusión.** En un reporte irían las dos nubes y el contraste como hallazgo.
+Solo la B hace parecer que el homicidio no es problema; solo la A hace parecer que la
+ciudad está llena de feminicidios. En una nube de palabras, la decisión de qué contar
+importa más que la nube, y casi nunca se declara.
+
+**Limitación declarada.** `delito` es texto de catálogo, no redacción libre: 286
+etiquetas institucionales reutilizadas, no 242,392 relatos. La narración de los hechos
+existe en el expediente pero el portal de datos abiertos no la publica.
+
 ## Archivos
 
 ```
-requirements.txt          las seis librerias que usa el repo
+requirements.txt          las siete librerias que usa el repo
 data/                     dataset crudo (csv.gz)
 Practica 1/limpieza.py    pipeline de limpieza -> parquet
 Practica 2/
@@ -423,13 +471,19 @@ Practica 8/
   graficas/               la serie con el pronostico, y el patron semanal
   salida.txt              salida completa del script
   README.md               el reporte
+Practica 9/
+  texto.py                dos nubes, bigramas, cobertura y palabras vacias propias
+  graficas/               las dos nubes y la comparacion en barras
+  salida.txt              salida completa del script
+  README.md               el reporte
 ```
 
-Los ocho scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
+Los nueve scripts traen `--demo`, y todos usan datos de juguete sin tocar las 242,392
 filas: el de la Práctica 1 comprueba el pipeline de limpieza, el de la 2 verifica las
 fórmulas de datos agrupados contra una tabla resuelta a mano, el de la 3 comprueba que
 cada tipo de gráfica se dibuja, el de la 4 corre cada prueba sobre grupos donde ya se
 sabe la respuesta, el de la 5 ajusta rectas con R² conocido, el de la 6 clasifica dos
 nubes bien separadas, el de la 7 comprueba que encuentra 3 grupos cuando hay 3 y que
-la silueta se cae con ruido uniforme, y el de la 8 ajusta una recta exacta y verifica
-que el corte entrenamiento/prueba quede en orden cronológico.
+la silueta se cae con ruido uniforme, el de la 8 ajusta una recta exacta y verifica
+que el corte entrenamiento/prueba quede en orden cronológico, y el de la 9 comprueba
+que las dos formas de contar den resultados distintos sobre un corpus de juguete.
